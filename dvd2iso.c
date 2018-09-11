@@ -48,9 +48,8 @@ dvdcss_close_t dvdcss_close;
 // program version
 #define VERSION "1.2"
 
- /**
+/*
 	Load libdvdcss and map function calls
-	@returns the library handle, or NULL if loading fails or the library is not usable
 */
 HMODULE load_libdvdcss() {
 	HMODULE hModule = LoadLibrary(_T("dvdcss.dll"));
@@ -77,12 +76,8 @@ HMODULE load_libdvdcss() {
 	}
 }
 
-/**
+/*
 	Write a given number of blocks from buffer to file
-	@param buffer	- the buffer to write
-	@param blocks	- number of blocks to write from the buffer 
-	@param file		- file to write to
-	@param flush	- whether or not to flush after writing
 */
 static bool write_data(void *buffer, int blocks, FILE* file, bool flush) {
 	int iBytes = (int) fwrite(buffer, DVDCSS_BLOCK_SIZE*blocks, 1, file);
@@ -92,12 +87,8 @@ static bool write_data(void *buffer, int blocks, FILE* file, bool flush) {
 	return (iBytes == blocks);
 }
 
-/**
+/*
 	Utility function to convert a time to a formatted string
-	@param theTime			- the time to convert
-	@param buffer			- output string buffer
-	@param bufferLength		- length of output string buffer
-	@param formatString		- time format for conversion
 */
 static void time_to_string(time_t & theTime, char* buffer, int bufferLength, const char* formatString) {
 	struct tm tmTime;
@@ -105,10 +96,8 @@ static void time_to_string(time_t & theTime, char* buffer, int bufferLength, con
 	strftime(buffer, bufferLength, formatString, &tmTime);
 }
 
-/**
+/*
 	Find the size of a given disk, in blocks
-	@param path	- the disk root path (e.g. "D:")
-	@returns the total size of the disk in DVDCSS_BLOCK_SIZE blocks
 */
 static int get_disk_blocks(char* path) {
 	DWORD dwSectorsPerCluster, dwBytesPerSector, dwNumFreeClusters, dwTotalNumClusters;
@@ -122,13 +111,8 @@ static int get_disk_blocks(char* path) {
 		return -1;
 }
 
-/**
+/*
 	Utility function to convert blocks to a formatted string
-	@param blocks			- number of blocks to convert
-	@param buffer			- target for output string
-	@param bufferSize		- length of output string buffer
-	@param maxUnitFormat	- limit the conversion to a particular unit (one of UNIT_FORMAT_*)
-	@param temporal			- append "/s" to the end of the units or not
 */
 static void blocks_to_string(long blocks, char* buffer, int bufferLength, int maxUnitFormat, bool temporal) {
 	const char* units = "KiB";
